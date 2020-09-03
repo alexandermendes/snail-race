@@ -1,4 +1,4 @@
-# Snails
+# Snail Race
 
 As you surely will have heard by now, the 2020
 [Snail Racing Championships](http://www.snailracing.net/) were cancelled due to

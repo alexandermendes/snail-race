@@ -1,13 +1,13 @@
 {
-  "name": "snails",
+  "name": "snail-race",
   "version": "1.0.0",
-  "description": "",
+  "description": "Ready, set, go...go...go?",
   "main": "index.js",
   "scripts": {
     "build": "webpack",
     "dev": "webpack --watch"
   },
-  "author": "",
+  "author": "Alex Mendes",
   "license": "ISC",
   "devDependencies": {
     "css-loader": "^4.2.2",
