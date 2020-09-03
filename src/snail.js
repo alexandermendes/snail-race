@@ -21,6 +21,7 @@ export class Snail {
       green: 'green',
       lightGreen: '#c8e9c6',
       brown: '#8c4f13',
+      darkBrown: '#662f00',
     };
 
     const quarterRadian = 0.5 * Math.PI;
@@ -36,10 +37,10 @@ export class Snail {
     trailGradient.addColorStop(1, colours.white);
     trailGradient.addColorStop(0, colours.lightGreen);
 
-    this.ctx.moveTo(lineStart, 90);
-    this.ctx.lineTo(lineEnd, 90);
     this.ctx.strokeStyle = trailGradient;
     this.ctx.lineWidth = 3;
+    this.ctx.moveTo(lineStart, 90);
+    this.ctx.lineTo(lineEnd, 90);
     this.ctx.stroke();
 
     // Transform snail
@@ -77,12 +78,20 @@ export class Snail {
     this.ctx.fill();
 
     // Shell
+    const shellRadius = 50;
+    const shellCenter = 70;
+    const shellStart = shellCenter - shellRadius / 2;
+    const shellEnd = shellCenter + shellRadius / 2;
+    const shellGradient = this.ctx.createLinearGradient(shellStart, 0, shellEnd, 35);
+    shellGradient.addColorStop(1, colours.darkBrown);
+    shellGradient.addColorStop(0.5, colours.brown);
+
     this.ctx.beginPath();
-    this.ctx.arc(70, 50, 30, 0, 4 * quarterRadian);
+    this.ctx.arc(shellCenter, 50, 30, 0, 4 * quarterRadian);
     this.ctx.moveTo(45, 67);
     this.ctx.lineTo(12, 30);
     this.ctx.lineTo(67, 20);
-    this.ctx.fillStyle = colours.brown;
+    this.ctx.fillStyle = shellGradient;
     this.ctx.fill();
 
     // Name
