@@ -17,6 +17,7 @@
     "webpack-cli": "^3.3.12"
   },
   "dependencies": {
-    "normalize.css": "^8.0.1"
+    "normalize.css": "^8.0.1",
+    "vue-confetti": "^2.0.11"
   }
 }

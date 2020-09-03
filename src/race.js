@@ -1,9 +1,11 @@
+import { Confetti } from 'vue-confetti';
 import { clearCanvas } from './canvas';
 
 export class Race {
   constructor(canvas, snailHerder) {
     this.canvas = canvas;
     this.snailHerder = snailHerder;
+    this.confetti = new Confetti();
 
     this.animationId = null;
   }
@@ -18,9 +20,8 @@ export class Race {
     this.snailHerder.draw();
 
     const winningSnail = this.snailHerder.getWinningSnail();
-
     if (winningSnail) {
-      window.alert(winningSnail.name);
+      this.end(winningSnail);
       return;
     }
 
@@ -39,5 +40,25 @@ export class Race {
    */
   start() {
     this.animationId = requestAnimationFrame(this.loop.bind(this));
+  }
+
+  /**
+   * End the race.
+   */
+  end(winningSnail) {
+    if (!winningSnail) {
+      return;
+    }
+
+    this.confetti.start({
+      particles: [
+        {
+          type: 'heart',
+        },
+        {
+          type: 'rect',
+        }
+      ],
+    });
   }
 };
