@@ -3,9 +3,10 @@ export class Snail {
     this.ctx = canvas.getContext('2d');
     this.name = name;
     this.trackNumber = trackNumber;
-    this.pos = 0;
     this.maxChars = 7;
     this.width = 120;
+    this.pos = 0;
+    this.trailPos = 10;
   }
 
   /**
@@ -15,16 +16,34 @@ export class Snail {
     const colours = {
       white: 'white',
       green: 'green',
+      lightGreen: '#c8e9c6',
       brown: '#8c4f13',
     };
 
     const quarterRadian = 0.5 * Math.PI;
+    const verticalPos = this.trackNumber * 80;
 
-    this.ctx.beginPath();
-    this.ctx.setTransform(1, 0, 0, 1, this.pos, this.trackNumber * 80);
+    // Transform trail
+    this.ctx.setTransform(1, 0, 0, 1, 0, verticalPos);
+
+    // Trail
+    const lineStart = this.pos + this.width;
+    const lineEnd = this.trailPos - 200;
+    const trailGradient = this.ctx.createLinearGradient(lineStart, 0, lineEnd, 0);
+    trailGradient.addColorStop(1, colours.white);
+    trailGradient.addColorStop(0, colours.lightGreen);
+
+    this.ctx.moveTo(lineStart, 90);
+    this.ctx.lineTo(lineEnd, 90);
+    this.ctx.strokeStyle = trailGradient;
+    this.ctx.lineWidth = 3;
+    this.ctx.stroke();
+
+    // Transform snail
+    this.ctx.setTransform(1, 0, 0, 1, this.pos, verticalPos);
 
     // Body
-
+    this.ctx.beginPath();
     this.ctx.arc(this.width, 85, 5, 0, quarterRadian);
     this.ctx.lineTo(0, 90);
     this.ctx.lineTo(45, 65);
@@ -70,7 +89,10 @@ export class Snail {
     this.ctx.fillStyle = colours.white;
     this.ctx.fillText(truncatedName, 62 - truncatedName.length, 30);
 
-    // Trail
+    // Fixes some weird bug where the linear gradient leaks into the last stroke
+    // ¯\_(ツ)_/¯
+    this.ctx.beginPath();
+    this.ctx.stroke();
   }
 
   getTruncatedName() {
@@ -83,7 +105,11 @@ export class Snail {
    * Update the position of the snail.
    */
   update() {
-    this.pos = this.pos + Math.random() * 1;
+    const randOne = Math.random();
+    const randTwo = Math.random();
+
+    this.pos = this.pos + randOne * 1;
+    this.trailPos = this.trailPos + randTwo * 1;
   }
 
   /**
