@@ -38,7 +38,7 @@ export default class SnailHerder {
    * Get the winning snail, if any.
    */
   getWinningSnail() {
-    const snail = this.snails.find(snail => snail.getPos() >= this.canvas.width);
+    const snail = this.snails.find(snail => snail.getHeadPos() >= this.canvas.width);
 
     return snail;
   }

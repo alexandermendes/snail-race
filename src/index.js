@@ -1,3 +1,5 @@
+import 'normalize.css/normalize.css';
+
 import { getCanvas, clearCanvas } from './canvas';
 
 import SnailHerder from './snail-herder';
@@ -44,4 +46,4 @@ const start = () => {
   animationId = requestAnimationFrame(loop);
 };
 
-// start();
+start();

@@ -14,5 +14,16 @@ module.exports = {
     new HtmlWebpackPlugin({
       title: 'Snails',
     }),
-  ]
+  ],
+  module: {
+    rules: [
+      {
+        test: /\.css$/,
+        use: [
+          "style-loader",
+          "css-loader"
+        ]
+      }
+    ]
+  },
 };
