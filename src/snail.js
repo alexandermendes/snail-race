@@ -5,8 +5,11 @@ export class Snail {
     this.trackNumber = trackNumber;
     this.maxChars = 7;
     this.width = 120;
+
     this.pos = 0;
     this.trailPos = 10;
+    this.bodyPos = Math.random(); // vary body movements a little
+    this.isSqueezing = false;
   }
 
   /**
@@ -44,13 +47,33 @@ export class Snail {
 
     // Body
     this.ctx.beginPath();
-    this.ctx.arc(this.width, 85, 5, 0, quarterRadian);
-    this.ctx.lineTo(0, 90);
-    this.ctx.lineTo(45, 65);
-    this.ctx.lineTo(110, 65);
-    this.ctx.arc(115, 75, 10, 3 * quarterRadian, 0);
-    this.ctx.lineTo(125, 80);
+    this.ctx.arc(this.width + this.bodyPos, 85, 5, 0, quarterRadian);
+    this.ctx.lineTo(0 - this.bodyPos, 90);
+    this.ctx.lineTo(45 - this.bodyPos, 65);
+    this.ctx.lineTo(110 + this.bodyPos, 65);
+    this.ctx.arc(115 + this.bodyPos, 75, 10, 3 * quarterRadian, 0);
+    this.ctx.lineTo(125 + this.bodyPos, 80);
     this.ctx.fillStyle = colours.green;
+    this.ctx.fill();
+
+    // Antennae
+    this.ctx.strokeStyle = colours.green;
+    this.ctx.fillStyle = colours.green;
+
+    this.ctx.beginPath();
+    this.ctx.moveTo(115 + this.bodyPos, 70);
+    this.ctx.lineTo(this.width + this.bodyPos, 50);
+    this.ctx.stroke();
+    this.ctx.beginPath();
+    this.ctx.arc(this.width + this.bodyPos, 50, 2, 0, 4 * quarterRadian);
+    this.ctx.fill();
+
+    this.ctx.beginPath();
+    this.ctx.moveTo(113 + this.bodyPos, 70);
+    this.ctx.lineTo(113 + this.bodyPos, 50);
+    this.ctx.stroke();
+    this.ctx.beginPath();
+    this.ctx.arc(113 + this.bodyPos, 50, 2, 0, 4 * quarterRadian);
     this.ctx.fill();
 
     // Shell
@@ -60,26 +83,6 @@ export class Snail {
     this.ctx.lineTo(12, 30);
     this.ctx.lineTo(67, 20);
     this.ctx.fillStyle = colours.brown;
-    this.ctx.fill();
-
-    // Antennae
-    this.ctx.strokeStyle = colours.green;
-    this.ctx.fillStyle = colours.green;
-
-    this.ctx.beginPath();
-    this.ctx.moveTo(115, 70);
-    this.ctx.lineTo(this.width, 50);
-    this.ctx.stroke();
-    this.ctx.beginPath();
-    this.ctx.arc(this.width, 50, 2, 0, 4 * quarterRadian);
-    this.ctx.fill();
-
-    this.ctx.beginPath();
-    this.ctx.moveTo(113, 70);
-    this.ctx.lineTo(113, 50);
-    this.ctx.stroke();
-    this.ctx.beginPath();
-    this.ctx.arc(113, 50, 2, 0, 4 * quarterRadian);
     this.ctx.fill();
 
     // Name
@@ -105,17 +108,22 @@ export class Snail {
    * Update the position of the snail.
    */
   update() {
-    const randOne = Math.random();
-    const randTwo = Math.random();
+    this.pos = this.pos + Math.random() * 1;
+    this.trailPos = this.trailPos + Math.random() * 1;
 
-    this.pos = this.pos + randOne * 1;
-    this.trailPos = this.trailPos + randTwo * 1;
+    this.bodyPos = this.isSqueezing
+      ? this.bodyPos + .1
+      : this.bodyPos - .1;
+
+    if (this.bodyPos <= 0 || this.bodyPos >= 5) {
+      this.isSqueezing = !this.isSqueezing;
+    }
   }
 
   /**
    * Get the position of the snail;
    */
   getHeadPos() {
-    return this.pos + this.width + 1;
+    return this.pos + this.bodyPos + this.width + 1;
   }
 }
