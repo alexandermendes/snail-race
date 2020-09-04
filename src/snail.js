@@ -10,7 +10,7 @@ export class Snail {
     this.trackNumber = trackNumber;
     this.maxChars = 7;
 
-    this.height = Math.min(height, 100);
+    this.height = Math.min(height, 75);
     this.size = this.height / 14;
     this.width = 22 * this.size;
 
