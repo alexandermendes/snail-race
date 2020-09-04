@@ -1,10 +1,9 @@
 import 'normalize.css/normalize.css';
 
 import { getCanvas } from './canvas';
-
 import SnailHerder from './snail-herder';
 import SnailBreeder from './snail-breeder';
-import { Race } from './race';
+import Race from './race';
 
 const canvas = getCanvas();
 
@@ -13,12 +12,12 @@ const snailHerder = new SnailHerder(canvas);
 const race = new Race(canvas, snailHerder);
 
 const params = new URLSearchParams(window.location.search);
-const names = params.getAll('name');
+const snailNames = params.getAll('name');
 
-const height = canvas.height / names.length;
-const snails = snailBreeder.create(names, height);
+const snailHeight = canvas.height / snailNames.length;
+const snails = snailBreeder.breed(snailNames, snailHeight);
 
-snailHerder.addSnails(snails);
+snailHerder.herdSnails(snails);
 
 race.prepare();
 race.start();

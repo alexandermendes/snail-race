@@ -6,9 +6,9 @@ export default class SnailBreeder {
   }
 
   /**
-   * Create some snails.
+   * Breed some snails.
    */
-  create(names, height) {
+  breed(names, height) {
     return names.map((name, i) => new Snail({
       name,
       canvas: this.canvas,

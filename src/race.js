@@ -1,7 +1,7 @@
 import { Confetti } from 'vue-confetti';
 import { clearCanvas, resetCanvas } from './canvas';
 
-export class Race {
+export default class Race {
   constructor(canvas, snailHerder) {
     this.canvas = canvas;
     this.ctx = this.canvas.getContext('2d');

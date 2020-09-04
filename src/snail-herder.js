@@ -6,9 +6,9 @@ export default class SnailHerder {
   }
 
   /**
-   * Add some snails.
+   * Herd some snails.
    */
-  addSnails(snails) {
+  herdSnails(snails) {
     this.snails.push(...snails);
   }
 
