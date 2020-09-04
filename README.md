@@ -1,12 +1,10 @@
 # Snail Race
 
-An SVG snail race :snail:
-
-Doubles up as a unique way of picking a random thing.
+Uses SVG snails to pick a random thing :snail:
 
 ## Usage
 
-Hit the following webpage with a list of the names you want to race:
+Hit the following page with the names you want to race:
 
 https://alexandermendes.github.io/snail-race/?name=bob&name=fred
 
