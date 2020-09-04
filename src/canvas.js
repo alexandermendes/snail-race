@@ -16,11 +16,21 @@ export const getCanvas = () => {
 };
 
 /**
+ * Reset any canvas transformations.
+ */
+export const resetCanvas = (canvas) => {
+  const ctx = canvas.getContext('2d');
+
+  ctx.resetTransform();
+};
+
+/**
  * Clear a canvas.
  */
 export const clearCanvas = (canvas) => {
   const ctx = canvas.getContext('2d');
 
-  ctx.setTransform(1, 0, 0, 1, 0, 0);
+  resetCanvas(canvas);  
+
   ctx.clearRect(0, 0, canvas.width, canvas.height);
 };

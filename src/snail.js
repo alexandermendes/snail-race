@@ -1,5 +1,9 @@
 export class Snail {
-  constructor(canvas, name, trackNumber) {
+  constructor({
+    canvas,
+    name,
+    trackNumber,
+  }) {
     this.ctx = canvas.getContext('2d');
     this.name = name;
     this.trackNumber = trackNumber;
@@ -39,6 +43,7 @@ export class Snail {
 
     this.ctx.strokeStyle = trailGradient;
     this.ctx.lineWidth = 3;
+    this.ctx.beginPath();
     this.ctx.moveTo(lineStart, 90);
     this.ctx.lineTo(lineEnd, 90);
     this.ctx.stroke();
