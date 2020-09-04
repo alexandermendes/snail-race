@@ -10,6 +10,7 @@ export class Snail {
     this.trackNumber = trackNumber;
     this.maxChars = 7;
 
+    this.speed = 1;
     this.height = Math.min(height, 75);
     this.size = this.height / 14;
     this.width = 22 * this.size;
@@ -117,6 +118,9 @@ export class Snail {
     this.ctx.stroke();
   }
 
+  /**
+   * Get the truncated name of the snail.
+   */
   getTruncatedName() {
     return this.name.length > this.maxChars
       ? `${this.name.substring(0, this.maxChars)}…`
@@ -126,13 +130,13 @@ export class Snail {
   /**
    * Update the position of the snail.
    */
-  update() {
-    this.pos = this.pos + Math.random() * 1;
-    this.trailPos = this.trailPos + Math.random() * 1;
+  updatePositon() {
+    this.pos = this.pos + Math.random() * this.speed;
+    this.trailPos = this.trailPos + Math.random() * this.speed;
 
     this.bodyPos = this.isSqueezing
-      ? this.bodyPos + .1
-      : this.bodyPos - .1;
+      ? this.bodyPos + (this.speed * .1)
+      : this.bodyPos - (this.speed * .1);
 
     if (this.bodyPos <= 0 || this.bodyPos >= 5) {
       this.isSqueezing = !this.isSqueezing;
@@ -144,5 +148,18 @@ export class Snail {
    */
   getHeadPos() {
     return this.pos + this.bodyPos + this.width;
+  }
+
+  /**
+   * Set the speed of the snai.
+   *
+   * Adds a random speed boost for a bit more variety.
+   */
+  setRandomSpeed() {
+    const rand = Math.random();
+
+    this.speed = rand > .5
+      ? 1 + (rand / 2) // divide by two just so they don't get too far ahead
+      : 1;
   }
 }

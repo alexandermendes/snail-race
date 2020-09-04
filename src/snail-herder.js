@@ -13,25 +13,24 @@ export default class SnailHerder {
   }
 
   /**
-   * Update the position of each snail.
+   * Prod snails to update their position snail.
    */
-  update() {
-    const updatedSnails = [];
+  prodSnails(update = true) {
+    if (update) {
+      this.snails.forEach((snail) => {
+        snail.updatePositon();
+      });
+    }
 
-    this.snails.forEach((snail) => {
-      snail.update();
 
-      updatedSnails.push(snail);
-    });
-
-    this.snails = updatedSnails;
+    this.snails.forEach(snail => snail.draw());
   }
 
   /**
-   * Draw the snails.
+   * Whip the snails to speed some up randomly.
    */
-  draw() {
-    this.snails.forEach(snail => snail.draw());
+  whipSnails() {
+    this.snails.forEach((snail) => snail.setRandomSpeed());
   }
 
   /**

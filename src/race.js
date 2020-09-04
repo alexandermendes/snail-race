@@ -8,6 +8,7 @@ export class Race {
     this.snailHerder = snailHerder;
     this.confetti = new Confetti();
 
+    this.frame = 0;
     this.animationId = null;
   }
 
@@ -17,15 +18,27 @@ export class Race {
   loop() {
     clearCanvas(this.canvas);
 
-    this.snailHerder.update();
-    this.snailHerder.draw();
-
-    const winningSnail = this.snailHerder.getWinningSnail();
-    if (winningSnail) {
-      this.end(winningSnail);
+    // Check if the race has been stopped
+    if (this.frame < 0) {
       return;
     }
 
+    // Whip the snails occcasionally to get some variety into race
+    if (this.frame > 0 && this.frame % 250 === 0) {
+      this.snailHerder.whipSnails();
+    }
+
+    // Move the snails along
+    this.snailHerder.prodSnails();
+
+    // Check for a winner
+    const winningSnail = this.snailHerder.getWinningSnail();
+    if (winningSnail) {
+      this.announceWinner(winningSnail);
+      return;
+    }
+
+    this.frame++;
     this.animationId = requestAnimationFrame(this.loop.bind(this));
   }
 
@@ -33,25 +46,29 @@ export class Race {
    * Prepare the snails.
    */
   prepare() {
-    this.snailHerder.draw();
+    this.snailHerder.prodSnails(false);
   }
 
   /**
    * Start the race.
    */
   start() {
+    this.frame = 0;
+
     this.animationId = requestAnimationFrame(this.loop.bind(this));
   }
 
   /**
    * End the race.
    */
-  end(winningSnail) {
+  end() {
+    this.frame = -1;
+  }
 
-    if (!winningSnail) {
-      return;
-    }
-
+  /**
+   * Announce the winner.
+   */
+  announceWinner(winningSnail) {
     const fontSize = 80;
     const caption = `${winningSnail.getTruncatedName()} wins!`;
 
