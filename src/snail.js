@@ -59,10 +59,9 @@ export class Snail {
     this.ctx.beginPath();
     this.ctx.arc(this.width + this.bodyPos, 11.5 * this.size, this.size, 0, quarterRadian);
     this.ctx.lineTo(0 - this.bodyPos, 12.5 * this.size);
-    this.ctx.lineTo(7 * this.size - this.bodyPos, 8 * this.size);
-    this.ctx.lineTo(20 * this.size + this.bodyPos, 8 * this.size);
+    this.ctx.lineTo(9 * this.size - this.bodyPos, 9 * this.size);
+    this.ctx.lineTo(18 * this.size + this.bodyPos, 8 * this.size);
     this.ctx.arc(21 * this.size + this.bodyPos, 10 * this.size, 2 * this.size, 3 * quarterRadian, 0);
-    this.ctx.lineTo(23 * this.size + this.bodyPos, 11 * this.size);
     this.ctx.fillStyle = colours.green;
     this.ctx.fill();
 
@@ -80,11 +79,11 @@ export class Snail {
     this.ctx.fill();
 
     this.ctx.beginPath();
-    this.ctx.moveTo(20 * this.size - 2 + this.bodyPos, 9 * this.size);
-    this.ctx.lineTo(20 * this.size - 2 + this.bodyPos, 5 * this.size);
+    this.ctx.moveTo(20.5 * this.size - 2 + this.bodyPos, 9 * this.size);
+    this.ctx.lineTo(20.5 * this.size - 2 + this.bodyPos, 5 * this.size);
     this.ctx.stroke();
     this.ctx.beginPath();
-    this.ctx.arc(20 * this.size - 2 + this.bodyPos, 5 * this.size, this.size / 2, 0, 4 * quarterRadian);
+    this.ctx.arc(20.5 * this.size - 2 + this.bodyPos, 5 * this.size, this.size / 2, 0, 4 * quarterRadian);
     this.ctx.fill();
 
     // Shell
