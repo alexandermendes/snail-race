@@ -3,12 +3,16 @@ export class Snail {
     canvas,
     name,
     trackNumber,
+    height,
   }) {
     this.ctx = canvas.getContext('2d');
     this.name = name;
     this.trackNumber = trackNumber;
     this.maxChars = 7;
-    this.width = 120;
+
+    this.height = Math.min(height, 100);
+    this.size = this.height / 14;
+    this.width = 22 * this.size;
 
     this.pos = 0;
     this.trailPos = 10;
@@ -29,23 +33,23 @@ export class Snail {
     };
 
     const quarterRadian = 0.5 * Math.PI;
-    const verticalPos = this.trackNumber * 80;
+    const verticalPos = this.trackNumber * this.height;
 
     // Transform trail
     this.ctx.setTransform(1, 0, 0, 1, 0, verticalPos);
 
     // Trail
     const lineStart = this.pos + this.width;
-    const lineEnd = this.trailPos - 200;
+    const lineEnd = this.trailPos - (40 * this.size);
     const trailGradient = this.ctx.createLinearGradient(lineStart, 0, lineEnd, 0);
     trailGradient.addColorStop(1, colours.white);
     trailGradient.addColorStop(0, colours.lightGreen);
 
     this.ctx.strokeStyle = trailGradient;
-    this.ctx.lineWidth = 3;
+    this.ctx.lineWidth = this.size - 2;
     this.ctx.beginPath();
-    this.ctx.moveTo(lineStart, 90);
-    this.ctx.lineTo(lineEnd, 90);
+    this.ctx.moveTo(lineStart, 12.4 * this.size);
+    this.ctx.lineTo(lineEnd, 12.4 * this.size);
     this.ctx.stroke();
 
     // Transform snail
@@ -53,58 +57,60 @@ export class Snail {
 
     // Body
     this.ctx.beginPath();
-    this.ctx.arc(this.width + this.bodyPos, 85, 5, 0, quarterRadian);
-    this.ctx.lineTo(0 - this.bodyPos, 90);
-    this.ctx.lineTo(45 - this.bodyPos, 65);
-    this.ctx.lineTo(110 + this.bodyPos, 65);
-    this.ctx.arc(115 + this.bodyPos, 75, 10, 3 * quarterRadian, 0);
-    this.ctx.lineTo(125 + this.bodyPos, 80);
+    this.ctx.arc(this.width + this.bodyPos, 11.5 * this.size, this.size, 0, quarterRadian);
+    this.ctx.lineTo(0 - this.bodyPos, 12.5 * this.size);
+    this.ctx.lineTo(7 * this.size - this.bodyPos, 8 * this.size);
+    this.ctx.lineTo(20 * this.size + this.bodyPos, 8 * this.size);
+    this.ctx.arc(21 * this.size + this.bodyPos, 10 * this.size, 2 * this.size, 3 * quarterRadian, 0);
+    this.ctx.lineTo(23 * this.size + this.bodyPos, 11 * this.size);
     this.ctx.fillStyle = colours.green;
     this.ctx.fill();
 
     // Antennae
     this.ctx.strokeStyle = colours.green;
     this.ctx.fillStyle = colours.green;
+    this.ctx.lineWidth = this.size * .4;
 
     this.ctx.beginPath();
-    this.ctx.moveTo(115 + this.bodyPos, 70);
-    this.ctx.lineTo(this.width + this.bodyPos, 50);
+    this.ctx.moveTo(21 * this.size + this.bodyPos, 9 * this.size);
+    this.ctx.lineTo(this.width + this.bodyPos, 5 * this.size);
     this.ctx.stroke();
     this.ctx.beginPath();
-    this.ctx.arc(this.width + this.bodyPos, 50, 2, 0, 4 * quarterRadian);
+    this.ctx.arc(this.width + this.bodyPos, 5 * this.size, this.size / 2, 0, 4 * quarterRadian);
     this.ctx.fill();
 
     this.ctx.beginPath();
-    this.ctx.moveTo(113 + this.bodyPos, 70);
-    this.ctx.lineTo(113 + this.bodyPos, 50);
+    this.ctx.moveTo(20 * this.size - 2 + this.bodyPos, 9 * this.size);
+    this.ctx.lineTo(20 * this.size - 2 + this.bodyPos, 5 * this.size);
     this.ctx.stroke();
     this.ctx.beginPath();
-    this.ctx.arc(113 + this.bodyPos, 50, 2, 0, 4 * quarterRadian);
+    this.ctx.arc(20 * this.size - 2 + this.bodyPos, 5 * this.size, this.size / 2, 0, 4 * quarterRadian);
     this.ctx.fill();
 
     // Shell
-    const shellRadius = 50;
-    const shellCenter = 70;
+    const shellRadius = 6 * this.size;
+    const shellCenter = 12 * this.size;
     const shellStart = shellCenter - shellRadius / 2;
     const shellEnd = shellCenter + shellRadius / 2;
-    const shellGradient = this.ctx.createLinearGradient(shellStart, 0, shellEnd, 35);
+    const shellGradient = this.ctx.createLinearGradient(shellStart, 0, shellEnd, 7 * this.size);
     shellGradient.addColorStop(1, colours.darkBrown);
     shellGradient.addColorStop(0.5, colours.brown);
 
     this.ctx.beginPath();
-    this.ctx.arc(shellCenter, 50, 30, 0, 4 * quarterRadian);
-    this.ctx.moveTo(45, 67);
-    this.ctx.lineTo(12, 30);
-    this.ctx.lineTo(67, 20);
+    this.ctx.arc(shellCenter, shellRadius, 5 * this.size, 0, 4 * quarterRadian);
+    this.ctx.moveTo(8 * this.size, 9 * this.size);
+    this.ctx.lineTo(2 * this.size, 2 * this.size);
+    this.ctx.lineTo(12 * this.size, this.size);
     this.ctx.fillStyle = shellGradient;
     this.ctx.fill();
 
     // Name
     const truncatedName = this.getTruncatedName();
-    this.ctx.font = '12px Verdana';
+    const fontSize = 2 * this.size;
+    this.ctx.font = `${fontSize}px Verdana`;
     this.ctx.rotate(.3);
     this.ctx.fillStyle = colours.white;
-    this.ctx.fillText(truncatedName, 62 - truncatedName.length, 30);
+    this.ctx.fillText(truncatedName, 10 * this.size + 2 - truncatedName.length, 3 * this.size);
 
     // Fixes some weird bug where the linear gradient leaks into the last stroke
     // ¯\_(ツ)_/¯
@@ -138,6 +144,6 @@ export class Snail {
    * Get the position of the snail;
    */
   getHeadPos() {
-    return this.pos + this.bodyPos + this.width + 1;
+    return this.pos + this.bodyPos + this.width;
   }
 }

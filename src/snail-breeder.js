@@ -8,11 +8,12 @@ export default class SnailBreeder {
   /**
    * Create some snails.
    */
-  create(names) {
+  create(names, height) {
     return names.map((name, i) => new Snail({
       name,
       canvas: this.canvas,
       trackNumber: i,
+      height,
     }));
   }
 }

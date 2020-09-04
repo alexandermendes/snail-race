@@ -15,7 +15,8 @@ const race = new Race(canvas, snailHerder);
 const params = new URLSearchParams(window.location.search);
 const names = params.getAll('name');
 
-const snails = snailBreeder.create(names);
+const height = canvas.height / names.length;
+const snails = snailBreeder.create(names, height);
 
 snailHerder.addSnails(snails);
 
