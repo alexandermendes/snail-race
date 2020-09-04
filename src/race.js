@@ -8,14 +8,13 @@ export class Race {
     this.snailHerder = snailHerder;
     this.confetti = new Confetti();
 
-    this.frame = 0;
-    this.animationId = null;
+    this.reset();
   }
 
   /**
    * The animation loop.
    */
-  loop() {
+  mainLoop() {
     clearCanvas(this.canvas);
 
     // Check if the race has been stopped
@@ -39,7 +38,35 @@ export class Race {
     }
 
     this.frame++;
-    this.animationId = requestAnimationFrame(this.loop.bind(this));
+    this.animationId = requestAnimationFrame(this.mainLoop.bind(this));
+  }
+
+  /**
+   * The loop used when starting the race.
+   */
+  startLoop() {
+    if (this.countdown <= 0) {
+      this.animationId = requestAnimationFrame(this.mainLoop.bind(this));
+      return;
+    }
+
+    clearCanvas(this.canvas);
+
+    this.displayText(this.countdown);
+    this.snailHerder.prodSnails(false);
+    this.countdown--;
+    setTimeout(() => {
+      this.animationId = requestAnimationFrame(this.startLoop.bind(this));
+    }, 1000);
+  }
+
+  /**
+   * Reset some vars used to animate the race.
+   */
+  reset() {
+    this.countdown = 5;
+    this.frame = 0;
+    this.animationId = null;
   }
 
   /**
@@ -53,9 +80,9 @@ export class Race {
    * Start the race.
    */
   start() {
-    this.frame = 0;
+    this.reset();
 
-    this.animationId = requestAnimationFrame(this.loop.bind(this));
+    this.animationId = requestAnimationFrame(this.startLoop.bind(this));
   }
 
   /**
@@ -69,22 +96,9 @@ export class Race {
    * Announce the winner.
    */
   announceWinner(winningSnail) {
-    const fontSize = 80;
-    const caption = `${winningSnail.getTruncatedName()} wins!`;
+    const text = `${winningSnail.getTruncatedName()} wins!`;
 
-    resetCanvas(this.canvas);
-
-    this.ctx.font = `${fontSize}px Sans-serif`;
-    this.ctx.strokeStyle = 'black';
-    this.ctx.fillStyle = 'white';
-    this.ctx.lineWidth = 8;
-
-    const { width: textWidth } = this.ctx.measureText(caption);
-    const textX = (window.innerWidth - textWidth) / 2;
-    const textY = 150;
-
-    this.ctx.strokeText(caption, textX, textY);
-    this.ctx.fillText(caption, textX, textY);
+    this.displayText(text);
 
     this.confetti.start({
       particles: [
@@ -96,5 +110,26 @@ export class Race {
         }
       ],
     });
+  }
+
+  /**
+   * Display some text.
+   */
+  displayText(text) {
+    const fontSize = 80;
+
+    resetCanvas(this.canvas); // to clear transformations etc.
+
+    this.ctx.font = `${fontSize}px Sans-serif`;
+    this.ctx.strokeStyle = 'black';
+    this.ctx.fillStyle = 'white';
+    this.ctx.lineWidth = 8;
+
+    const { width: textWidth } = this.ctx.measureText(text);
+    const textX = (window.innerWidth - textWidth) / 2;
+    const textY = 150;
+
+    this.ctx.strokeText(text, textX, textY);
+    this.ctx.fillText(text, textX, textY);
   }
 };
