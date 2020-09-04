@@ -8,19 +8,19 @@ jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout 🛎️
-        uses: actions/checkout@v2.3.1
+      - name: Checkout
+        uses: actions/checkout@v2
         with:
           persist-credentials: false
 
-      - name: Install and Build 🔧
+      - name: Install and Build
         run: |
-          yarn install
+          yarn install --frozen-lockfile --non-interactive
           yarn build
 
-      - name: Deploy 🚀
-        uses: JamesIves/github-pages-deploy-action@3.5.9
+      - name: Deploy
+        uses: JamesIves/github-pages-deploy-action@3
         with:
           ACCESS_TOKEN: ${{ secrets.ACCESS_TOKEN }}
           BRANCH: gh-pages
-          FOLDER: build
+          FOLDER: dist
