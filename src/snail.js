@@ -87,8 +87,8 @@ export class Snail {
     this.ctx.fill();
 
     // Shell
-    const shellRadius = 6 * this.size;
-    const shellCenter = 12 * this.size;
+    const shellRadius = 5.5 * this.size;
+    const shellCenter = 13 * this.size;
     const shellStart = shellCenter - shellRadius / 2;
     const shellEnd = shellCenter + shellRadius / 2;
     const shellGradient = this.ctx.createLinearGradient(shellStart, 0, shellEnd, 7 * this.size);
@@ -96,10 +96,10 @@ export class Snail {
     shellGradient.addColorStop(0.5, colours.brown);
 
     this.ctx.beginPath();
-    this.ctx.arc(shellCenter, shellRadius, 5 * this.size, 0, 4 * quarterRadian);
-    this.ctx.moveTo(8 * this.size, 9 * this.size);
-    this.ctx.lineTo(2 * this.size, 2 * this.size);
-    this.ctx.lineTo(12 * this.size, this.size);
+    this.ctx.arc(shellCenter, shellRadius, 5.5 * this.size, 0, 4 * quarterRadian);
+    this.ctx.moveTo(9 * this.size, 9 * this.size);
+    this.ctx.lineTo(3 * this.size, 2 * this.size);
+    this.ctx.lineTo(12.5 * this.size, 0);
     this.ctx.fillStyle = shellGradient;
     this.ctx.fill();
 
@@ -109,7 +109,7 @@ export class Snail {
     this.ctx.font = `${fontSize}px Verdana`;
     this.ctx.rotate(.3);
     this.ctx.fillStyle = colours.white;
-    this.ctx.fillText(truncatedName, 10 * this.size + 2 - truncatedName.length, 3 * this.size);
+    this.ctx.fillText(truncatedName, 11 * this.size + 2 - truncatedName.length, 2 * this.size);
 
     // Fixes some weird bug where the linear gradient leaks into the last stroke
     // ¯\_(ツ)_/¯
